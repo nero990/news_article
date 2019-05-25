@@ -1,4 +1,4 @@
-package article.news.service;
+package article.news.service.dao;
 
 import article.news.constant.ErrorCode;
 import article.news.dto.request.RoleRequest;

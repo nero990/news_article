@@ -4,12 +4,13 @@ import article.news.dto.request.RoleRequest;
 import article.news.dto.response.DeleteResponse;
 import article.news.dto.response.ResponseBuilder;
 import article.news.model.Role;
-import article.news.service.RoleService;
+import article.news.service.dao.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
  */
 
 @RestController
-@Api(tags = {"Role Resource"})
+@Api(tags = {"Roles"})
 @RequestMapping("roles")
 public class RoleController {
     private final RoleService roleService;
@@ -37,7 +38,7 @@ public class RoleController {
 
     @ApiOperation(value = "Create a new role", response = Role.class)
     @PostMapping
-    public ResponseEntity<Role> createUser(@RequestBody RoleRequest roleRequest) {
+    public ResponseEntity<Role> createUser(@Valid @RequestBody RoleRequest roleRequest) {
         Role role = roleService.createRole(roleRequest);
         return ResponseBuilder.created(role, role.getId());
     }
@@ -50,7 +51,7 @@ public class RoleController {
 
     @ApiOperation(value = "Update a role", response = Role.class)
     @PutMapping("{id}")
-    public ResponseEntity<Role> updateUser(@PathVariable Long id, @RequestBody RoleRequest roleRequest) {
+    public ResponseEntity<Role> updateUser(@PathVariable Long id, @Valid @RequestBody RoleRequest roleRequest) {
         return ResponseEntity.ok(roleService.updateRole(id, roleRequest));
     }
 

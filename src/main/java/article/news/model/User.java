@@ -53,11 +53,11 @@ public class User {
     @NotNull
     private String password;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     @CreatedDate
     protected Date createdAt = new Date();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     @LastModifiedDate
     protected Date updatedAt = new Date();
 
@@ -69,7 +69,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.username = username;
-        this.password = password;
+        setPassword(password);
     }
 
     public void setPassword(String password) {

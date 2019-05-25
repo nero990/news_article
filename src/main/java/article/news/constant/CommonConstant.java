@@ -1,5 +1,6 @@
 package article.news.constant;
 
 public interface CommonConstant {
-    String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    String TIME_FORMAT = "HH:mm:ss";
 }

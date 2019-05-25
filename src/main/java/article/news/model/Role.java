@@ -26,19 +26,19 @@ import java.util.Date;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
 
     @NotNull
     @Column(unique = true, length = 20)
     private String name;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     @CreatedDate
-    protected Date createdAt = new Date();
+    private Date createdAt = new Date();
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     @LastModifiedDate
-    protected Date updatedAt = new Date();
+    private Date updatedAt = new Date();
 
     public Role() {
     }

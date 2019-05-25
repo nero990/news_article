@@ -1,6 +1,7 @@
-package article.news.service;
+package article.news.service.dao;
 
 import article.news.constant.ErrorCode;
+import article.news.dto.request.RegisterRequest;
 import article.news.dto.request.user.CreateUserRequest;
 import article.news.dto.request.user.UpdateUserRequest;
 import article.news.exception.ErrorException;
@@ -8,10 +9,14 @@ import article.news.model.Role;
 import article.news.model.User;
 import article.news.repository.RoleRepository;
 import article.news.repository.UserRepository;
+import article.news.shared.Writer;
 import article.news.util.CommonUtil;
+import article.news.util.PageRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -26,8 +31,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final RoleService roleService;
-
-    private final String DEFAULT_PASSWORD = "password";
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService) {
@@ -59,8 +62,10 @@ public class UserService {
         User user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getUsername(), userRequest.getPassword());
 
         if(userRequest.getRoleId() == null) {
+            // Before writers can sign-up, a WRITER role MUST be created.
             Role writer = roleRepository.findByName("Writer");
-            if(writer == null) throw new ErrorException(ErrorCode.INVALID_ENTRY, "Writer role hasn't been created. Please create.");
+            if(writer == null) throw new ErrorException(ErrorCode.INVALID_ENTRY,
+                    "Writer can't sign-up at the moment, please contact the system administrator.");
             user.setRole(writer);
         } else {
             Role role = roleService.getRole(userRequest.getRoleId());
@@ -99,5 +104,15 @@ public class UserService {
     public boolean deleteUser(Long id) {
         userRepository.delete(getUser(id, true));
         return true;
+    }
+
+    // Writer sign-up
+    public User registerWriter(RegisterRequest registerRequest) {
+        return createUser(new CreateUserRequest(registerRequest.getFirstName(), registerRequest.getLastName(),
+                registerRequest.getPassword(), registerRequest.getEmail(), registerRequest.getUsername()));
+    }
+
+    public Page<Writer> getWriters(HttpServletRequest request) {
+        return userRepository.findAllWriters(PageRequestUtil.getPageRequest(request));
     }
 }

@@ -5,12 +5,15 @@ import article.news.dto.request.user.UpdateUserRequest;
 import article.news.dto.response.DeleteResponse;
 import article.news.dto.response.ResponseBuilder;
 import article.news.model.User;
-import article.news.service.UserService;
+import article.news.service.dao.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,7 +24,7 @@ import java.util.List;
  */
 
 @RestController
-@Api(tags = {"User Resource"})
+@Api(tags = {"Users"})
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
@@ -31,6 +34,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "list of available users", response = User.class, responseContainer = "List")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+                    required = true, dataType = "string", paramType = "header") })
     @GetMapping
     public List<User> getUsers() {
         return userService.getAllUsers();
@@ -38,7 +44,7 @@ public class UserController {
 
     @ApiOperation(value = "Create a new user", response = User.class)
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         User user = userService.createUser(createUserRequest);
         return ResponseBuilder.created(user, user.getId());
     }
@@ -51,7 +57,7 @@ public class UserController {
 
     @ApiOperation(value = "Update a user", response = User.class)
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest updateUserRequest) {
         return ResponseEntity.ok(userService.updateUser(id, updateUserRequest));
     }
 

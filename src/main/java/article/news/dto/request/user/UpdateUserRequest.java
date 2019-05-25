@@ -18,6 +18,14 @@ public class UpdateUserRequest {
     @NotNull
     private String password;
 
-    @NotNull
     private Long roleId;
+
+    public UpdateUserRequest() {
+    }
+
+    public UpdateUserRequest(@NotNull String firstName, @NotNull String lastName, @NotNull String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
 }

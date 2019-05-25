@@ -2,7 +2,6 @@ package article.news.model;
 
 import article.news.constant.CommonConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,41 +12,34 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * Article model for managing users news.
+ * Session model for user active session / last activities
  *
  * @author Nero Okiewhru
- * @since 2019-05-24
+ * @since 2019-05-25
  */
-
-@Entity
-@Table(name="articles")
 @Getter
 @Setter
-public class Article {
+@Entity
+@Table(name="sessions")
+public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String title;
-
-    @Lob
-    @NotNull
-    private String description;
-
-    @Lob
-    @NotNull
-    private String content;
-
-    private String imageUrl;
-
-    @JsonProperty("author")
-    @NotNull
     @ManyToOne
     private User user;
 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
-    private Date publishedAt;
+    private Date loggedInAt = new Date();
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
+    private Date loggedOutAt;
+
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
+    private Date lastActiveAt = new Date();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     @CreatedDate
@@ -57,4 +49,10 @@ public class Article {
     @LastModifiedDate
     private Date updatedAt = new Date();
 
+    public Session() {
+    }
+
+    public Session(@NotNull User user) {
+        this.user = user;
+    }
 }
