@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Api(value="Employee Management System", description="Operations pertaining to employee in Employee Management System", tags = {"Test APIs"})
+@Api(value="Employee Management System")
 @RequestMapping("test")
 public class HomeController {
 

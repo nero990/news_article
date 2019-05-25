@@ -1,13 +1,14 @@
 package article.news.repository;
 
-import article.news.model.User;
+import article.news.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findByName(@NotNull String name);
 
-    User findByUsernameOrEmail(@NotNull String username, @NotNull String email);
+    Role findByNameAndIdNot(@NotNull String name, Long id);
 }

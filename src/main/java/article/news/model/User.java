@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,11 +25,11 @@ import java.util.Date;
 @Table(name="users")
 @Getter
 @Setter
+@Proxy(lazy = false)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @NotNull
     private String firstName;
@@ -40,7 +42,7 @@ public class User {
     private String email;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     @NotNull
@@ -58,4 +60,19 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
     @LastModifiedDate
     protected Date updatedAt = new Date();
+
+    public User() {
+    }
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email, @NotNull String username, @NotNull String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+    public void setPassword(String password) {
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
 }

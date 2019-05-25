@@ -24,10 +24,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @NotNull
     @Column(unique = true, length = 20)
@@ -40,4 +39,11 @@ public class Role {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
     @LastModifiedDate
     protected Date updatedAt = new Date();
+
+    public Role() {
+    }
+
+    public Role(@NotNull String name) {
+        this.name = name;
+    }
 }

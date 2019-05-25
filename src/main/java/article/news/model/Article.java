@@ -24,10 +24,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class Article {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @NotNull
     private String title;
@@ -57,4 +56,5 @@ public class Article {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATETIME_FORMAT)
     @LastModifiedDate
     protected Date updatedAt = new Date();
+
 }
