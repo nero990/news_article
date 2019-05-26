@@ -36,7 +36,7 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @ApiOperation(value = "List the logged in author's articles", response = Author.class, responseContainer = "List")
+    @ApiOperation(value = "List the authenticated author's articles", response = Author.class, responseContainer = "List")
     @GetMapping
     public ResponseEntity<Page<Article>> getArticles(HttpServletRequest request) {
         return ResponseEntity.ok(articleService.getArticles(RequestUtil.getUser(), request));
