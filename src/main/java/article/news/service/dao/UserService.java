@@ -7,7 +7,9 @@ import article.news.dto.request.user.UpdateUserRequest;
 import article.news.exception.ErrorException;
 import article.news.model.Role;
 import article.news.model.User;
+import article.news.repository.ArticleRepository;
 import article.news.repository.RoleRepository;
+import article.news.repository.SessionRepository;
 import article.news.repository.UserRepository;
 import article.news.shared.Author;
 import article.news.util.CommonUtil;
@@ -30,12 +32,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ArticleRepository articleRepository;
+    private final SessionRepository sessionRepository;
     private final RoleService roleService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ArticleRepository articleRepository, SessionRepository sessionRepository, RoleService roleService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.articleRepository = articleRepository;
+        this.sessionRepository = sessionRepository;
         this.roleService = roleService;
     }
 
@@ -55,7 +61,6 @@ public class UserService {
         CommonUtil.throwEntityNotFound(shouldThrow, user);
         return user;
     }
-
 
     // Creates a new user
     public User createUser(CreateUserRequest userRequest) {
@@ -98,7 +103,17 @@ public class UserService {
 
     //Deletes a user. Throws EntityNotFoundException if user does not exist.
     public boolean deleteUser(Long id) {
-        userRepository.delete(getUser(id, true));
+        User user = getUser(id, true);
+
+        // Ensures the user does not have an article before performing delete
+        int articlesCount = Integer.valueOf(articleRepository.countUserArticles(user).toString());
+        if(articlesCount > 0) throw new ErrorException(ErrorCode.OPERATION_FAILED, "The user (" + user.getName() + ") has " + articlesCount + " article(s), hence cannot be deleted.");
+
+        // Delete all user sessions
+        sessionRepository.deleteAll(sessionRepository.findAllByUser(user));
+
+        // Finally, delete user
+        userRepository.delete(user);
         return true;
     }
 

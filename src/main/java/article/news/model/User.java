@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Proxy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -54,12 +54,12 @@ public class User {
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
-    @CreatedDate
-    protected Date createdAt = new Date();
+    @CreationTimestamp
+    private Date createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
-    @LastModifiedDate
-    protected Date updatedAt = new Date();
+    @UpdateTimestamp
+    private Date updatedAt;
 
     public User() {
     }
@@ -74,5 +74,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    @JsonIgnore
+    public String getName() {
+        return firstName + " " + lastName;
     }
 }

@@ -21,9 +21,13 @@ public class RequestUtil {
         return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
-    public static User getAuthor() {
-        User user = getSession().getUser();
-        if(user != null && user.getRole().getName().equals(CommonConstant.AUTHOR)) {
+    public static User getUser() {
+        return getSession().getUser();
+    }
+
+    public static User getAdministrator() {
+        User user = getUser();
+        if(user != null && user.getRole().getName().equals(CommonConstant.ADMINISTRATOR)) {
             return user;
         }
         return null;

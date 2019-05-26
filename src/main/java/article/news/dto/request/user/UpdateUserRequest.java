@@ -18,6 +18,7 @@ public class UpdateUserRequest {
     @NotNull
     private String password;
 
+    @NotNull
     private Long roleId;
 
     public UpdateUserRequest() {

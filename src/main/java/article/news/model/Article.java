@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -52,12 +52,12 @@ public class Article {
     private Date publishedAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
-    @CreatedDate
-    private Date createdAt = new Date();
+    @CreationTimestamp
+    private Date createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
-    @LastModifiedDate
-    private Date updatedAt = new Date();
+    @UpdateTimestamp
+    private Date updatedAt;
 
     public Article() {
     }

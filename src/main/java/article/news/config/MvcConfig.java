@@ -1,7 +1,7 @@
 package article.news.config;
 
 import article.news.interceptor.AuthInterceptor;
-import article.news.interceptor.AuthorInterceptor;
+import article.news.interceptor.AdministratorInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,18 +11,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
-    private final AuthorInterceptor authorInterceptor;
+    private final AdministratorInterceptor administratorInterceptor;
 
     @Autowired
-    public MvcConfig(AuthInterceptor authInterceptor, AuthorInterceptor authorInterceptor) {
+    public MvcConfig(AuthInterceptor authInterceptor, AdministratorInterceptor administratorInterceptor) {
         this.authInterceptor = authInterceptor;
-        this.authorInterceptor = authorInterceptor;
+        this.administratorInterceptor = administratorInterceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).addPathPatterns(
                 "/authors/**",
+                "/news/**",
                 "/roles/**",
                 "/users/**",
                 "/session/logout"
@@ -30,8 +31,9 @@ public class MvcConfig implements WebMvcConfigurer {
                 "/authors/register"
         );
 
-        registry.addInterceptor(authorInterceptor).addPathPatterns(
-                "/authors/articles/**"
+        registry.addInterceptor(administratorInterceptor).addPathPatterns(
+                "/roles/**",
+                "/users/**"
         );
     }
 }

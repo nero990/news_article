@@ -44,7 +44,7 @@ public class Swagger2Config {
                         new Tag("Roles", "Role Management"),
                         new Tag("Authentication", "User Authentication"),
                         new Tag("Authors", "Author Management"),
-                        new Tag("Articles", "Article Management")
+                        new Tag("News", "News")
                 );
     }
 

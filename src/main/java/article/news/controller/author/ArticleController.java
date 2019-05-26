@@ -1,6 +1,7 @@
 package article.news.controller.author;
 
-import article.news.dto.request.ArticleRequest;
+import article.news.dto.request.article.CreateArticleRequest;
+import article.news.dto.request.article.UpdateArticleRequest;
 import article.news.dto.response.DeleteResponse;
 import article.news.dto.response.ResponseBuilder;
 import article.news.model.Article;
@@ -38,31 +39,31 @@ public class ArticleController {
     @ApiOperation(value = "List the logged in author's articles", response = Author.class, responseContainer = "List")
     @GetMapping
     public ResponseEntity<Page<Article>> getArticles(HttpServletRequest request) {
-        return ResponseEntity.ok(articleService.getArticles(RequestUtil.getAuthor(), request));
+        return ResponseEntity.ok(articleService.getArticles(RequestUtil.getUser(), request));
     }
 
     @ApiOperation(value = "Get an article for the authenticated author", response = Author.class)
     @GetMapping("/{id}")
     public ResponseEntity<Article> getArticle(@PathVariable Long id) {
-        return ResponseEntity.ok(articleService.getArticle(RequestUtil.getAuthor(), id,true));
+        return ResponseEntity.ok(articleService.getArticle(RequestUtil.getUser(), id,true));
     }
 
     @ApiOperation(value = "Create an article for the authenticated author", response = Author.class)
     @PostMapping
-    public ResponseEntity<Article> createArticle(@Valid @RequestBody ArticleRequest articleRequest) {
-        Article article = articleService.createArticle(articleRequest, RequestUtil.getAuthor());
+    public ResponseEntity<Article> createArticle(@Valid @RequestBody CreateArticleRequest articleRequest) {
+        Article article = articleService.createArticle(articleRequest, RequestUtil.getUser());
         return ResponseBuilder.created(article, article.getId());
     }
 
     @ApiOperation(value = "Update an article for the authenticated author", response = Author.class)
     @PutMapping("/{id}")
-    public ResponseEntity<Article> createArticle(@PathVariable Long id, @Valid @RequestBody ArticleRequest articleRequest) {
-        return ResponseEntity.ok(articleService.updateArticle(id, RequestUtil.getAuthor(), articleRequest));
+    public ResponseEntity<Article> createArticle(@PathVariable Long id, @Valid @RequestBody UpdateArticleRequest articleRequest) {
+        return ResponseEntity.ok(articleService.updateArticle(id, RequestUtil.getUser(), articleRequest));
     }
 
     @ApiOperation(value = "Delete an article for the authenticated author", response = DeleteResponse.class)
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteResponse> deleteArticle(@PathVariable Long id) {
-        return ResponseEntity.ok(new DeleteResponse(articleService.deleteArticle(id, RequestUtil.getAuthor())));
+        return ResponseEntity.ok(new DeleteResponse(articleService.deleteArticle(id, RequestUtil.getUser())));
     }
 }

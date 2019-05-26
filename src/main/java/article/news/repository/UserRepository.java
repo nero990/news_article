@@ -18,9 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT new article.news.shared.Author(CONCAT(u.firstName, ' ', u.lastName), u.email, u.username) " +
             "FROM User u " +
-            "WHERE u.role.name = 'Writer'")
+            "WHERE u.role.name = article.news.constant.CommonConstant.AUTHOR")
     Page<Author> findAllAuthors(Pageable pageable);
 
-    @Query("SELECT u FROM User u WHERE u.role.name = 'Writer' AND u.username = :username")
+    @Query("SELECT u FROM User u WHERE u.role.name = article.news.constant.CommonConstant.AUTHOR AND u.username = :username")
     User getAuthorByUsername(@Param("username") @NotNull String username);
 }

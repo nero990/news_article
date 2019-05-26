@@ -1,4 +1,4 @@
-package article.news.dto.request;
+package article.news.dto.request.article;
 
 import article.news.constant.CommonConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
 @Setter
-public class ArticleRequest {
+public class UpdateArticleRequest {
     @NotNull
     @Length(max = 200)
     private String title;
@@ -23,7 +22,6 @@ public class ArticleRequest {
     @NotNull
     private String content;
 
-    @FutureOrPresent
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     private Date publishedAt;
 }
