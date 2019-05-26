@@ -9,6 +9,12 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * Article update request class
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-26
+ */
 @Getter
 @Setter
 public class UpdateArticleRequest {

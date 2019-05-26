@@ -1,5 +1,11 @@
 package article.news.dto.response;
 
+/**
+ * Custom response for delete operations
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 public class DeleteResponse {
     private Boolean deleted;
 

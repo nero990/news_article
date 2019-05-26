@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * ArticleRepository
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 

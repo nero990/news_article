@@ -2,7 +2,7 @@ package article.news.controller;
 
 import article.news.dto.request.RoleRequest;
 import article.news.dto.response.DeleteResponse;
-import article.news.dto.response.ResponseBuilder;
+import article.news.util.ResponseBuilder;
 import article.news.model.Role;
 import article.news.service.dao.RoleService;
 import io.swagger.annotations.Api;

@@ -11,6 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * UserRepository
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

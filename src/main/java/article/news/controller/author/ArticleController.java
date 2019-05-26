@@ -3,7 +3,7 @@ package article.news.controller.author;
 import article.news.dto.request.article.CreateArticleRequest;
 import article.news.dto.request.article.UpdateArticleRequest;
 import article.news.dto.response.DeleteResponse;
-import article.news.dto.response.ResponseBuilder;
+import article.news.util.ResponseBuilder;
 import article.news.model.Article;
 import article.news.service.dao.ArticleService;
 import article.news.shared.Author;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
- * Manages Author's articles
+ * Manages an author's articles
  *
  * @author Nero Okiewhru
  * @since 2019-05-25

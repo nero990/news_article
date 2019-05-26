@@ -11,6 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+/**
+ * Handles using authentication -> user login and logout
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 
 @Api(tags = {"Authentication"})
 @RestController

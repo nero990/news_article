@@ -10,6 +10,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * Seeds setup data
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-26
+ */
 @Component
 public class SetupSeeder {
 

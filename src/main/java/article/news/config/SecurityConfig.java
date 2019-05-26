@@ -7,6 +7,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+/**
+ * Spring configuration
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -17,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().deny();
         http.headers().contentSecurityPolicy("script-src 'self'");
         http.authorizeRequests()
-                .antMatchers("/assets/**", "/lib/**", "/css/**", "/js/**", "/img/**", "/api/**", "C:/Users/user/bap_enterprise/assets/billers/logos/**").permitAll();
+                .antMatchers("/assets/**", "/lib/**", "/css/**", "/js/**", "/img/**", "/api/**").permitAll();
     }
     /* To allow Pre-flight [OPTIONS] request from browser */
     @Override

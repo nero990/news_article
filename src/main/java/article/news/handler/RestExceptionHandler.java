@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
 
+/**
+ * Catches Exceptions and returns an custom response
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @ControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)

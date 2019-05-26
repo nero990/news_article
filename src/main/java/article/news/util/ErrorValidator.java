@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Validation error formatter
+ * MethodArgumentNotValidException error formatter
  *
  * @author Nero Okiewhru
  * @since 2019-05-25

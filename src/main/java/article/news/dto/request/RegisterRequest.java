@@ -6,6 +6,12 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+/**
+ * User registration/sign-up request class
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Getter
 @Setter
 public class RegisterRequest {

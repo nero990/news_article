@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * SessionRepository
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
 

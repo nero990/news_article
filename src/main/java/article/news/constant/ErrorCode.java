@@ -1,6 +1,6 @@
 package article.news.constant;
 /**
- * Error code listing
+ * Defines the application error codes
  *
  * @author Nero Okiewhru
  * @since 2019-05-25
@@ -12,7 +12,6 @@ public interface ErrorCode {
     String BAD_CREDENTIALS = "BAD_CREDENTIALS";
     String MISSING_AUTHORIZATION = "MISSING_AUTHORIZATION";
     String INVALID_AUTHORIZATION = "INVALID_AUTHORIZATION";
-    String UNKNOWN_ERROR = "UNKNOWN_ERROR";
     String EXPIRED_SESSION = "EXPIRED_SESSION";
     String ACCESS_DENIED = "ACCESS_DENIED";
     String VALIDATION_FAILURE = "VALIDATION_FAILURE";

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * Article model for managing users news.
+ * Article model for managing authors (users) news.
  *
  * @author Nero Okiewhru
  * @since 2019-05-24

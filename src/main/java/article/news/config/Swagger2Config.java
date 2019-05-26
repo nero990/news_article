@@ -19,6 +19,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Swagger Configuration
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
