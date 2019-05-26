@@ -3,12 +3,10 @@ package article.news.controller;
 import article.news.dto.request.user.CreateUserRequest;
 import article.news.dto.request.user.UpdateUserRequest;
 import article.news.dto.response.DeleteResponse;
-import article.news.util.ResponseBuilder;
 import article.news.model.User;
 import article.news.service.dao.UserService;
+import article.news.util.ResponseBuilder;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +33,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "list of available users", response = User.class, responseContainer = "List")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Authorization token",
-                    required = true, dataType = "string", paramType = "header") })
     @GetMapping
     public Page<User> getUsers(HttpServletRequest request) {
         return userService.getAllUsers(request);
