@@ -10,11 +10,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * UserController -> Manages CRUD operations for user
@@ -38,8 +39,8 @@ public class UserController {
             @ApiImplicitParam(name = "Authorization", value = "Authorization token",
                     required = true, dataType = "string", paramType = "header") })
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    public Page<User> getUsers(HttpServletRequest request) {
+        return userService.getAllUsers(request);
     }
 
     @ApiOperation(value = "Create a new user", response = User.class)

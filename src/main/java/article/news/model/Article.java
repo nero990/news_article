@@ -31,11 +31,13 @@ public class Article {
     @NotNull
     private String title;
 
-    @Lob
     @NotNull
+    @Column(unique = true)
+    private String slug;
+
     private String description;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     @NotNull
     private String content;
 
@@ -57,4 +59,15 @@ public class Article {
     @LastModifiedDate
     private Date updatedAt = new Date();
 
+    public Article() {
+    }
+
+    public Article(@NotNull String slug, @NotNull String title, String description, @NotNull String content, Date publishedAt, User user) {
+        this.slug = slug;
+        this.title = title;
+        this.description = description;
+        this.content = content;
+        this.publishedAt = publishedAt;
+        this.user = user;
+    }
 }

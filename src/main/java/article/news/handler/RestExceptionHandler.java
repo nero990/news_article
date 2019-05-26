@@ -3,9 +3,12 @@ package article.news.handler;
 import article.news.constant.ErrorCode;
 import article.news.dto.response.ErrorWrapper;
 import article.news.exception.ErrorException;
+import article.news.exception.ForbiddenException;
 import article.news.exception.UnAuthorizedException;
+import article.news.util.ErrorValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,6 +24,18 @@ public class RestExceptionHandler {
     @ExceptionHandler(UnAuthorizedException.class)
     public ResponseEntity<ErrorWrapper> handleException(UnAuthorizedException e) {
         return new ResponseEntity<>(new ErrorWrapper(e.getCode(), e.getMessage()),HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorWrapper> handleException(ForbiddenException e) {
+        return new ResponseEntity<>(new ErrorWrapper(e.getCode(), e.getMessage()),HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorWrapper> handleException(MethodArgumentNotValidException e) {
+        return ResponseEntity.unprocessableEntity().body(new ErrorWrapper(
+                ErrorCode.VALIDATION_FAILURE,
+                "Please supply correct form values",
+                ErrorValidator.errors(e)));
     }
 
     @ExceptionHandler(ErrorException.class)

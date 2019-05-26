@@ -2,12 +2,14 @@ package article.news.service;
 
 import article.news.constant.ErrorCode;
 import article.news.dto.request.LoginRequest;
+import article.news.dto.response.LoggedOutResponse;
 import article.news.dto.response.LoginResponse;
 import article.news.exception.ErrorException;
 import article.news.model.Session;
 import article.news.model.User;
 import article.news.repository.SessionRepository;
 import article.news.repository.UserRepository;
+import article.news.util.RequestUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -57,7 +59,7 @@ public class SessionService {
     public void sessionUpdate(Claims claims) throws Exception {
         Long sessionId = Long.valueOf((Integer) claims.get("id"));
         Session session = sessionRepository.findById(sessionId).orElse(null);
-        if (session == null) throw new Exception("Session Expired");
+        if (session == null || session.getLoggedOutAt() != null) throw new Exception("Session Expired");
 
         int timeOut = 30; // Session timeOut value in minutes
 
@@ -67,11 +69,21 @@ public class SessionService {
             throw new Exception("Session Expired");
         }
 
+        RequestUtil.setSession(session);
         session.setLastActiveAt(new Date());
         sessionRepository.save(session);
     }
 
     private boolean isExpired(Long expirationTime) {
         return expirationTime < new Date().getTime();
+    }
+
+    public LoggedOutResponse destroySession() {
+        Session session = RequestUtil.getSession();
+        session.setLastActiveAt(new Date());
+        session.setLoggedOutAt(new Date());
+
+        sessionRepository.save(session);
+        return new LoggedOutResponse(true);
     }
 }

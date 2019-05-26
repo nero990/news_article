@@ -1,6 +1,7 @@
 package article.news.controller;
 
 import article.news.dto.request.LoginRequest;
+import article.news.dto.response.LoggedOutResponse;
 import article.news.dto.response.LoginResponse;
 import article.news.service.SessionService;
 import io.swagger.annotations.Api;
@@ -29,10 +30,10 @@ public class SessionController {
         return ResponseEntity.ok(sessionService.authenticate(loginRequest));
     }
 
-    @ApiOperation(value = "Destroy user session", response = Boolean.class)
+    @ApiOperation(value = "Destroy user session", response = LoggedOutResponse.class)
     @GetMapping("/logout")
-    public ResponseEntity<Boolean> logout() {
-        return ResponseEntity.ok(true);
+    public ResponseEntity<LoggedOutResponse> logout() {
+        return ResponseEntity.ok(sessionService.destroySession());
     }
 
 }

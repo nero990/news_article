@@ -1,5 +1,6 @@
 package article.news.interceptor;
 
+import article.news.constant.CommonConstant;
 import article.news.constant.ErrorCode;
 import article.news.exception.UnAuthorizedException;
 import article.news.service.JwtService;
@@ -12,6 +13,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Enforces user login
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
     private final SessionService sessionService;
@@ -23,8 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        validateToken(request.getHeader("Authorization"));
+        validateToken(request.getHeader(CommonConstant.AUTHORIZATION));
         return true;
     }
 

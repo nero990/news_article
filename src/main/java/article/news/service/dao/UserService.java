@@ -9,7 +9,7 @@ import article.news.model.Role;
 import article.news.model.User;
 import article.news.repository.RoleRepository;
 import article.news.repository.UserRepository;
-import article.news.shared.Writer;
+import article.news.shared.Author;
 import article.news.util.CommonUtil;
 import article.news.util.PageRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,34 +39,34 @@ public class UserService {
         this.roleService = roleService;
     }
 
-    /*
-    * Returns all available users from the database*/
+    // Returns all available users from the database*/
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    /*
-    * Find a single user with id. If shouldThrow is set to true, it throws an EntityNotFoundException.
-    * else return null */
+    // Returns a Page of users
+    public Page<User> getAllUsers(HttpServletRequest request){
+        return userRepository.findAll(PageRequestUtil.getPageRequest(request));
+    }
+
+    // Find a single user with id. If shouldThrow is set to true, it throws an EntityNotFoundException.
     public User getUser(Long id, boolean shouldThrow) {
         User user = userRepository.findById(id).orElse(null);
         CommonUtil.throwEntityNotFound(shouldThrow, user);
         return user;
     }
 
-    /*
-    * Creates a new user
-    *
-    * */
+
+    // Creates a new user
     public User createUser(CreateUserRequest userRequest) {
         User user = new User(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getEmail(), userRequest.getUsername(), userRequest.getPassword());
 
         if(userRequest.getRoleId() == null) {
-            // Before writers can sign-up, a WRITER role MUST be created.
-            Role writer = roleRepository.findByName("Writer");
-            if(writer == null) throw new ErrorException(ErrorCode.INVALID_ENTRY,
-                    "Writer can't sign-up at the moment, please contact the system administrator.");
-            user.setRole(writer);
+            // Before author can sign-up, an Author role MUST be created.
+            Role author = roleRepository.findByName("Author");
+            if(author == null) throw new ErrorException(ErrorCode.INVALID_ENTRY,
+                    "Author can't sign-up at the moment, please contact the system administrator.");
+            user.setRole(author);
         } else {
             Role role = roleService.getRole(userRequest.getRoleId());
             if(role == null) throw new ErrorException(ErrorCode.INVALID_ENTRY, "Selected role is not valid");
@@ -84,9 +84,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    /*
-    * Update the given user. Throws EntityNotFoundException if user does not exist.
-    * */
+    //Update the given user. Throws EntityNotFoundException if user does not exist.
     public User updateUser(Long id, UpdateUserRequest updateUserRequest) {
         User user = getUser(id, true);
         Role role = roleService.getRole(updateUserRequest.getRoleId());
@@ -98,21 +96,27 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    /*
-    * Deletes a user. Throws EntityNotFoundException if user does not exist.
-    * */
+    //Deletes a user. Throws EntityNotFoundException if user does not exist.
     public boolean deleteUser(Long id) {
         userRepository.delete(getUser(id, true));
         return true;
     }
 
-    // Writer sign-up
-    public User registerWriter(RegisterRequest registerRequest) {
+    // Author sign-up
+    public User registerAuthor(RegisterRequest registerRequest) {
         return createUser(new CreateUserRequest(registerRequest.getFirstName(), registerRequest.getLastName(),
                 registerRequest.getPassword(), registerRequest.getEmail(), registerRequest.getUsername()));
     }
 
-    public Page<Writer> getWriters(HttpServletRequest request) {
-        return userRepository.findAllWriters(PageRequestUtil.getPageRequest(request));
+    // Get a page of authors
+    public Page<Author> getAuthors(HttpServletRequest request) {
+        return userRepository.findAllAuthors(PageRequestUtil.getPageRequest(request));
+    }
+
+    // Gets a single author
+    public Author getAuthor(String username) {
+        User user = userRepository.getAuthorByUsername(username);
+        if(user == null) throw new ErrorException(ErrorCode.RESOURCE_NOT_FOUND, "Author not found");
+        return new Author(user);
     }
 }

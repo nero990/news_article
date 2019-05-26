@@ -26,6 +26,7 @@ public class Swagger2Config {
     public Docket api() {
         Set<String> strings = new HashSet<>();
         strings.add("application/json");
+
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.basePackage("article.news.controller"))
                 .paths(PathSelectors.regex("/.*"))
@@ -42,7 +43,8 @@ public class Swagger2Config {
                         new Tag("Users", "User Management"),
                         new Tag("Roles", "Role Management"),
                         new Tag("Authentication", "User Authentication"),
-                        new Tag("Writers", "Writer Management")
+                        new Tag("Authors", "Author Management"),
+                        new Tag("Articles", "Article Management")
                 );
     }
 

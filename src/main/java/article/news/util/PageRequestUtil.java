@@ -5,6 +5,12 @@ import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Returns a PageRequest object to get paginated response
+ *
+ * @author Nero Okiewhru
+ * @since 2019-05-25
+ */
 public class PageRequestUtil {
 
     public static PageRequest getPageRequest(HttpServletRequest request) {
