@@ -9,11 +9,18 @@ package article.news.dto.response;
 public class LoginResponse {
     private String token;
 
-    public LoginResponse(String token) {
+    private Integer sessionTimeout;
+
+    public LoginResponse(String token, Integer sessionTimeout) {
         this.token = token;
+        this.sessionTimeout = sessionTimeout;
     }
 
     public String getToken() {
         return token;
+    }
+
+    public Integer getSessionTimeout() {
+        return sessionTimeout;
     }
 }

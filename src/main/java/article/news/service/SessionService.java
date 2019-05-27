@@ -30,6 +30,9 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
 
+    // Session timeOut value in minutes
+    private final Integer SESSION_TIMEOUT = 30;
+
     @Autowired
     public SessionService(SessionRepository sessionRepository, UserRepository userRepository) {
         this.sessionRepository = sessionRepository;
@@ -41,7 +44,7 @@ public class SessionService {
         if (user == null || !passwordVerify(loginRequest.getPassword(), user.getPassword()))
             throw new ErrorException(ErrorCode.BAD_CREDENTIALS, "Bad login credentials");
 
-        return new LoginResponse(sessionStart(user));
+        return new LoginResponse(sessionStart(user), SESSION_TIMEOUT);
     }
 
     private Boolean passwordVerify(String password, String passwordHash) {
@@ -61,9 +64,7 @@ public class SessionService {
         Session session = sessionRepository.findById(sessionId).orElse(null);
         if (session == null || session.getLoggedOutAt() != null) throw new Exception("Session Expired");
 
-        int timeOut = 30; // Session timeOut value in minutes
-
-        if (isExpired(session.getLastActiveAt().getTime() + (1000L * 60 * timeOut))) {
+        if (isExpired(session.getLastActiveAt().getTime() + (1000L * 60 * SESSION_TIMEOUT))) {
             session.setLoggedOutAt(new Date());
             sessionRepository.save(session);
             throw new Exception("Session Expired");
