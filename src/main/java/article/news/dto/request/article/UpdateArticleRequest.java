@@ -28,6 +28,7 @@ public class UpdateArticleRequest {
     @NotNull
     private String content;
 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     private Date publishedAt;
 }

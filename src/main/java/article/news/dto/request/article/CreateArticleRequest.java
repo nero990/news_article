@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -20,6 +21,7 @@ import java.util.Date;
 @Setter
 public class CreateArticleRequest extends UpdateArticleRequest {
 
+    @NotNull
     @FutureOrPresent
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CommonConstant.DATE_TIME_FORMAT)
     private Date publishedAt;
